@@ -36,5 +36,5 @@ zabbix_export:
       priority: "WARNING"
     - uuid: "ddcb5365aabd4cff90c8af5528b1c58c"
       name: "High EDAC ue_count"
-      expression: "last(/Template Linux EDAC/vfs.file.contents[/sys/devices/system/edac/mc/mc0/ue_count])>10"
-      priority: "WARNING"
+      expression: "last(/Template Linux EDAC/vfs.file.contents[/sys/devices/system/edac/mc/mc0/ue_count])>0"
+      priority: "HIGH"
