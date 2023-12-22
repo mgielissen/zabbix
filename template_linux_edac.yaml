@@ -1,0 +1,40 @@
+zabbix_export:
+  version: "6.4"
+  template_groups:
+    - uuid: "449d04f6170e4bdea0501d60281f2da0"
+      name: "Linux servers"
+
+  templates:
+    - uuid: "d3391784ec0a4179ae1aff3c2d6cbefe"
+      template: "Template Linux EDAC"
+      name: "Template Linux EDAC"
+      description: "Monitor EDAC ce_count and ue_count"
+      groups:
+        - name: "Linux servers"
+      items:
+        - uuid: "9c63c920f49a4927b901cbfaa772fe83"
+          name: "EDAC ce_count"
+          type: "ZABBIX_PASSIVE"
+          value_type: "UNSIGNED"
+          key: "vfs.file.contents[/sys/devices/system/edac/mc/mc0/ce_count]"
+          delay: "1m"
+          history: "7d"
+          trends: "365d"
+        - uuid: "78f4fed6870b45e297a53803baadd791"
+          name: "EDAC ue_count"
+          type: "ZABBIX_PASSIVE"
+          value_type: "UNSIGNED"
+          key: "vfs.file.contents[/sys/devices/system/edac/mc/mc0/ue_count]"
+          delay: "1m"
+          history: "7d"
+          trends: "365d"
+
+  triggers:
+    - uuid: "e05e65c98bb54ca7bbe0b2afe6526152"
+      name: "High EDAC ce_count"
+      expression: "last(/Template Linux EDAC/vfs.file.contents[/sys/devices/system/edac/mc/mc0/ce_count])>10"
+      priority: "WARNING"
+    - uuid: "ddcb5365aabd4cff90c8af5528b1c58c"
+      name: "High EDAC ue_count"
+      expression: "last(/Template Linux EDAC/vfs.file.contents[/sys/devices/system/edac/mc/mc0/ue_count])>10"
+      priority: "WARNING"
